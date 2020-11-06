@@ -28,14 +28,16 @@ app.listen(port, (error) => {
 });
 
 app.post('/payment', (req, res) => {
+  console.log('payment');
   const body = {
     source: req.body.token.id,
     amount: req.body.amount,
-    currency: 'usd',
+    currency: 'INR',
   };
 
-  stripe.charges.create(body, (stripeErr, stripes) => {
+  stripe.charges.create(body, (stripeErr, stripeRes) => {
     if (stripeErr) {
+      console.log('stripeErr: ', stripeErr);
       res.status(500).send({ error: stripeErr });
     } else {
       res.status(200).send({ success: stripeRes });
